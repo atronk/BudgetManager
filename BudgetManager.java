@@ -58,6 +58,7 @@ public class BudgetManager {
                     """);
         }
     }
+
     private int parseIntFromNextLine() {
         try {
             return Integer.parseInt(scan.nextLine());
@@ -77,6 +78,7 @@ public class BudgetManager {
     private void noPuchaseNotif() {
         System.out.println("The purchase list is empty!");
     }
+
     private void addIncome() {
         System.out.println("Enter income:");
         var income = parseFloatSafe(scan.nextLine());
@@ -144,6 +146,7 @@ public class BudgetManager {
     private static void printPurchase(String key, Float val) {
         System.out.printf("%s $%.2f\n", key, val);
     }
+
     private static void printPurchaseByType(String key, Float val) {
         System.out.printf("%s - $%.2f\n", key, val);
     }
@@ -211,7 +214,7 @@ public class BudgetManager {
                 var category = purchases.get(categoryKey);
 
                 fw.write(purchaseNumbers.get(categoryKey) + "\n");
-                for (var purchaseName: category.keySet()) {
+                for (var purchaseName : category.keySet()) {
                     fw.write(purchaseName + " $" + category.get(purchaseName) + "\n");
                 }
                 fw.write("END\n");
@@ -252,6 +255,7 @@ public class BudgetManager {
             System.err.printf("File with purchases not found: %s\n", exc.getMessage());
         }
     }
+
     private static Map<String, Float> sortedHashMapByValuesDesc(Map<String, Float> hashmap) {
         // Insert all key-value pairs into TreeMap using a custom comparator.
         TreeMap<String, Float> treeMap = new TreeMap<>((o1, o2) -> {
@@ -266,14 +270,15 @@ public class BudgetManager {
 
     private HashMap<String, Float> getAllPurchasesMap() {
         HashMap<String, Float> result = new HashMap<>();
-        for (var map: purchases.values()) {
+        for (var map : purchases.values()) {
             result.putAll(map);
         }
         return result;
     }
+
     private void sortAll() {
         var isEmpty = true;
-        for (var map: purchases.values()) {
+        for (var map : purchases.values()) {
             if (map.size() > 0) {
                 isEmpty = false;
                 break;
@@ -288,12 +293,13 @@ public class BudgetManager {
             sorted.forEach(BudgetManager::printPurchase);
         }
     }
+
     private void sortByType() {
         Map<String, Float> map = new HashMap<>();
         for (int i = 1; i <= 4; i++) {
             String type = purchaseNumbers.get(i);
             map.put(type, 0.f);
-            for (var price: purchases.get(i).values()) {
+            for (var price : purchases.get(i).values()) {
                 map.put(type, map.get(type) + price);
             }
         }
@@ -302,6 +308,7 @@ public class BudgetManager {
         sorted.forEach(BudgetManager::printPurchaseByType);
         System.out.printf("Total sum: $%.2f\n", sorted.values().stream().reduce(0.f, Float::sum));
     }
+
     private void sortCertainType() {
         promptChoosePurchaseType(false);
         var type = parseIntFromNextLine();
